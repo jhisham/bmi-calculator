@@ -1,16 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'dart:math';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'reusable_card.dart';
 import 'icon_content.dart';
-
-const Color activeCardColor = Color(0xFF1D1F33);
-const Color inactiveCardColor = Color(0xFF111328);
-const Color activeCardTextColor = Color(0xFFFFFFFF);
-const Color cardTextPrimaryColor = Color(0xFF8E8F99);
-const Color bottomContainerColor = Color(0xFFEB1555);
-const double bottomContainerHeight = 80.0;
-double _currentSliderValue = 10.0;
+import 'constants.dart';
 
 enum Gender {
   male,
@@ -25,6 +19,11 @@ class InputPage extends StatefulWidget {
 class _InputPageState extends State<InputPage> {
   // this enum is used with ternary operator
   Gender selectedGender;
+
+  double _heightInCm = 60.0;
+  int _weightInKg = 60;
+  int _ageValue = 18;
+  double bmi;
 
   // the commented out variables and method below are kept for reference to
   // compare between ternary operators and if-else statements which basically
@@ -72,40 +71,36 @@ class _InputPageState extends State<InputPage> {
               // mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Expanded(
-                  child: GestureDetector(
-                    onTap: () {
+                  child: ReusableCard(
+                    // callback function to set state and pass in the selected gender
+                    onTapped: () {
                       setState(() {
-                        // set the selectedGender variable to Gender.male state
                         selectedGender = Gender.male;
                       });
                     },
-                    child: ReusableCard(
-                      // ternary operator
-                      color: selectedGender == Gender.male
-                          ? activeCardColor
-                          : inactiveCardColor,
-                      child: IconContent(
-                          icon: FontAwesomeIcons.mars, label: 'male'),
-                    ),
+                    // ternary operator
+                    color: selectedGender == Gender.male
+                        ? kActiveCardColor
+                        : kInactiveCardColor,
+                    child:
+                        IconContent(icon: FontAwesomeIcons.mars, label: 'male'),
                   ),
                 ),
                 // Expanded(flex: 1, child: SizedBox()),
                 Expanded(
-                  child: GestureDetector(
-                    onTap: () {
+                  child: ReusableCard(
+                    //  callback function to set state and pass in the selected gender
+                    onTapped: () {
                       setState(() {
-                        // set the selectedGender variable to Gender.female state
                         selectedGender = Gender.female;
                       });
                     },
-                    child: ReusableCard(
-                      // ternary operator
-                      color: selectedGender == Gender.female
-                          ? activeCardColor
-                          : inactiveCardColor,
-                      child: IconContent(
-                          icon: FontAwesomeIcons.venus, label: 'female'),
-                    ),
+                    // ternary operator
+                    color: selectedGender == Gender.female
+                        ? kActiveCardColor
+                        : kInactiveCardColor,
+                    child: IconContent(
+                        icon: FontAwesomeIcons.venus, label: 'female'),
                   ),
                 ),
               ],
@@ -113,47 +108,49 @@ class _InputPageState extends State<InputPage> {
           ),
           Expanded(
             child: ReusableCard(
-              color: activeCardColor,
+              color: kActiveCardColor,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
                     'height'.toUpperCase(),
                     style: TextStyle(
-                      color: cardTextPrimaryColor,
-                      fontSize: 18.0,
+                      color: kCardTextPrimaryColor,
+                      fontSize: kLabelFontSize,
                     ),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.baseline,
+                    textBaseline: TextBaseline.alphabetic,
                     children: [
                       Text(
-                        '${_currentSliderValue.round()}',
+                        '${_heightInCm.round()}',
                         style: TextStyle(
-                          color: activeCardTextColor,
-                          fontSize: 40.0,
-                          fontWeight: FontWeight.bold,
+                          color: kActiveCardTextColor,
+                          fontSize: kVariableTextfontSize,
+                          fontWeight: FontWeight.w900,
                         ),
                       ),
                       Text(
                         'cm',
                         style: TextStyle(
-                          color: cardTextPrimaryColor,
-                          fontSize: 18.0,
+                          color: kCardTextPrimaryColor,
+                          fontSize: kLabelFontSize,
                         ),
                       ),
                     ],
                   ),
                   Slider(
-                    value: _currentSliderValue,
-                    min: 10.0,
-                    max: 300.0,
-                    thumbColor: bottomContainerColor,
-                    activeColor: bottomContainerColor,
+                    value: _heightInCm,
+                    min: 60.0,
+                    max: 200.0,
+                    thumbColor: kBottomContainerColor,
+                    activeColor: kBottomContainerColor,
                     inactiveColor: Colors.grey[600],
                     onChanged: (double value) {
                       setState(() {
-                        _currentSliderValue = value;
+                        _heightInCm = value;
                       });
                     },
                   )
@@ -167,7 +164,7 @@ class _InputPageState extends State<InputPage> {
               children: [
                 Expanded(
                   child: ReusableCard(
-                    color: activeCardColor,
+                    color: kActiveCardColor,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -175,22 +172,29 @@ class _InputPageState extends State<InputPage> {
                           'weight'.toUpperCase(),
                           style: TextStyle(
                             color: Color(0xFF8E8F99),
-                            fontSize: 18.0,
+                            fontSize: kLabelFontSize,
                           ),
                         ),
-                        SizedBox(height: 15.0),
                         Text(
-                          '74',
+                          _weightInKg.toString(),
                           style: TextStyle(
                               color: Color(0xFFFFFFFF),
-                              fontSize: 30.0,
-                              fontWeight: FontWeight.bold),
+                              fontSize: kVariableTextfontSize,
+                              fontWeight: FontWeight.w900),
                         ),
-                        SizedBox(height: 10.0),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             OutlinedButton(
+                              style: OutlinedButton.styleFrom(
+                                shape: CircleBorder(),
+                                padding: EdgeInsets.all(18),
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  _weightInKg--; // same as _weightValue -= 1
+                                });
+                              },
                               child: Icon(
                                 FontAwesomeIcons.minus,
                                 size: 20.0,
@@ -200,6 +204,15 @@ class _InputPageState extends State<InputPage> {
                               width: 15.0,
                             ),
                             OutlinedButton(
+                              style: OutlinedButton.styleFrom(
+                                shape: CircleBorder(),
+                                padding: EdgeInsets.all(18),
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  _weightInKg++;
+                                });
+                              },
                               child: Icon(
                                 FontAwesomeIcons.plus,
                                 size: 20.0,
@@ -214,7 +227,7 @@ class _InputPageState extends State<InputPage> {
                 // Expanded(flex: 1, child: SizedBox()),
                 Expanded(
                   child: ReusableCard(
-                    color: activeCardColor,
+                    color: kActiveCardColor,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -222,22 +235,29 @@ class _InputPageState extends State<InputPage> {
                           'age'.toUpperCase(),
                           style: TextStyle(
                             color: Color(0xFF8E8F99),
-                            fontSize: 18.0,
+                            fontSize: kLabelFontSize,
                           ),
                         ),
-                        SizedBox(height: 15.0),
                         Text(
-                          '74',
+                          _ageValue.toString(),
                           style: TextStyle(
                               color: Color(0xFFFFFFFF),
-                              fontSize: 30.0,
-                              fontWeight: FontWeight.bold),
+                              fontSize: kVariableTextfontSize,
+                              fontWeight: FontWeight.w900),
                         ),
-                        SizedBox(height: 10.0),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             OutlinedButton(
+                              style: OutlinedButton.styleFrom(
+                                shape: CircleBorder(),
+                                padding: EdgeInsets.all(18),
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  _ageValue--;
+                                });
+                              },
                               child: Icon(
                                 FontAwesomeIcons.minus,
                                 size: 20.0,
@@ -247,6 +267,15 @@ class _InputPageState extends State<InputPage> {
                               width: 15.0,
                             ),
                             OutlinedButton(
+                              style: OutlinedButton.styleFrom(
+                                shape: CircleBorder(),
+                                padding: EdgeInsets.all(18),
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  _ageValue++;
+                                });
+                              },
                               child: Icon(
                                 FontAwesomeIcons.plus,
                                 size: 20.0,
@@ -262,15 +291,21 @@ class _InputPageState extends State<InputPage> {
             ),
           ),
           Container(
-            color: bottomContainerColor,
+            color: kBottomContainerColor,
             width: double.infinity,
-            height: bottomContainerHeight,
+            height: kBottomContainerHeight,
             child: TextButton(
+              onPressed: () {
+                setState(() {
+                  bmi = _weightInKg / (pow((_heightInCm / 100), 2));
+                  print(bmi);
+                });
+              },
               child: Text(
                 "Calculate your BMI".toUpperCase(),
                 style: TextStyle(
                   color: Color(0xFFFFFFFF),
-                  fontSize: 18.0,
+                  fontSize: kLabelFontSize,
                 ),
               ),
             ),
