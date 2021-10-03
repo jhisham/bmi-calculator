@@ -5,6 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'reusable_card.dart';
 import 'icon_content.dart';
 import 'constants.dart';
+import 'buttons_card.dart';
 
 enum Gender {
   male,
@@ -141,18 +142,27 @@ class _InputPageState extends State<InputPage> {
                       ),
                     ],
                   ),
-                  Slider(
-                    value: _heightInCm,
-                    min: 60.0,
-                    max: 200.0,
-                    thumbColor: kBottomContainerColor,
-                    activeColor: kBottomContainerColor,
-                    inactiveColor: Colors.grey[600],
-                    onChanged: (double value) {
-                      setState(() {
-                        _heightInCm = value;
-                      });
-                    },
+                  SliderTheme(
+                    data: SliderTheme.of(context).copyWith(
+                      trackHeight: 2.0,
+                      thumbShape:
+                          RoundSliderThumbShape(enabledThumbRadius: 15.0),
+                      overlayShape:
+                          RoundSliderOverlayShape(overlayRadius: 27.0),
+                    ),
+                    child: Slider(
+                      value: _heightInCm,
+                      min: 60.0,
+                      max: 200.0,
+                      thumbColor: kBottomContainerColor,
+                      activeColor: kBottomContainerColor,
+                      inactiveColor: Colors.grey[600],
+                      onChanged: (double value) {
+                        setState(() {
+                          _heightInCm = value;
+                        });
+                      },
+                    ),
                   )
                 ],
               ),
@@ -164,65 +174,7 @@ class _InputPageState extends State<InputPage> {
               children: [
                 Expanded(
                   child: ReusableCard(
-                    color: kActiveCardColor,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'weight'.toUpperCase(),
-                          style: TextStyle(
-                            color: Color(0xFF8E8F99),
-                            fontSize: kLabelFontSize,
-                          ),
-                        ),
-                        Text(
-                          _weightInKg.toString(),
-                          style: TextStyle(
-                              color: Color(0xFFFFFFFF),
-                              fontSize: kVariableTextfontSize,
-                              fontWeight: FontWeight.w900),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            OutlinedButton(
-                              style: OutlinedButton.styleFrom(
-                                shape: CircleBorder(),
-                                padding: EdgeInsets.all(18),
-                              ),
-                              onPressed: () {
-                                setState(() {
-                                  _weightInKg--; // same as _weightValue -= 1
-                                });
-                              },
-                              child: Icon(
-                                FontAwesomeIcons.minus,
-                                size: 20.0,
-                              ),
-                            ),
-                            SizedBox(
-                              width: 15.0,
-                            ),
-                            OutlinedButton(
-                              style: OutlinedButton.styleFrom(
-                                shape: CircleBorder(),
-                                padding: EdgeInsets.all(18),
-                              ),
-                              onPressed: () {
-                                setState(() {
-                                  _weightInKg++;
-                                });
-                              },
-                              child: Icon(
-                                FontAwesomeIcons.plus,
-                                size: 20.0,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
+                      color: kActiveCardColor, child: ButtonsCard()),
                 ),
                 // Expanded(flex: 1, child: SizedBox()),
                 Expanded(
