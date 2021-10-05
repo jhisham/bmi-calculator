@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'constants.dart';
 
 const labelTextStyle = TextStyle(
-  color: Color(0xFF8E8F99),
+  color: kLabelTextColor,
   fontSize: kLabelFontSize,
 );
 

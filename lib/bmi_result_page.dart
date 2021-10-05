@@ -3,11 +3,21 @@ import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'constants.dart';
 
+class Result {
+  final double bmiResult;
+
+  Result(this.bmiResult);
+}
+
 class BMIResult extends StatelessWidget {
-  // const BMIResult({ Key key }) : super(key: key);
+  static const routeName = '/bmiResult';
 
   @override
   Widget build(BuildContext context) {
+    // extract the args from the current ModalRoute
+    // settings and cast them as Result.
+    final args = ModalRoute.of(context).settings.arguments as Result;
+
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -50,30 +60,64 @@ class BMIResult extends StatelessWidget {
                       Text(
                         'normal'.toUpperCase(),
                         style: TextStyle(
-                          color: Colors.green,
+                          color: Colors.greenAccent[400],
                           fontSize: kLabelFontSize,
                           fontWeight: FontWeight.w700,
+                          letterSpacing: 1.0,
                         ),
                       ),
                     ],
                   ),
                   SizedBox(height: 10.0),
                   Text(
-                    '24.1',
+                    args.bmiResult.toStringAsFixed(1),
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 100.0,
+                      fontSize: 90.0,
                       fontWeight: FontWeight.w900,
+                      letterSpacing: 1.0,
                     ),
                   ),
-                  Text('Normal BMI range:'),
-                  Text('18.5 - 25 kg/m2'),
-                  SizedBox(height: 5.0),
-                  Text('You have a normal body weight. Good job!'),
                   SizedBox(height: 10.0),
+                  Text(
+                    'Normal BMI range:',
+                    style: TextStyle(
+                      fontSize: kLabelFontSize,
+                      fontWeight: FontWeight.w600,
+                      letterSpacing: 1.0,
+                      color: kLabelTextColor,
+                    ),
+                  ),
+                  SizedBox(height: 5.0),
+                  Text(
+                    '18.5 - 25 kg/m2',
+                    style: TextStyle(
+                      fontSize: kLabelFontSize,
+                      fontWeight: FontWeight.w600,
+                      letterSpacing: 1.0,
+                    ),
+                  ),
+                  SizedBox(height: 30.0),
+                  Text(
+                    'You have a normal body weight. Good job!',
+                    style: TextStyle(
+                      fontSize: kLabelFontSize,
+                      letterSpacing: 1.0,
+                    ),
+                  ),
+                  SizedBox(height: 30.0),
                   TextButton(
-                    onPressed: () {},
-                    child: Text('save result'.toUpperCase()),
+                    onPressed: () {
+                      print(args.bmiResult);
+                    },
+                    child: Text(
+                      'save result'.toUpperCase(),
+                      style: TextStyle(
+                        fontSize: 17.0,
+                        letterSpacing: 1.0,
+                        color: Colors.white,
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -92,6 +136,7 @@ class BMIResult extends StatelessWidget {
                 style: TextStyle(
                   color: Color(0xFFFFFFFF),
                   fontSize: kLabelFontSize,
+                  letterSpacing: 1.0,
                 ),
               ),
             ),

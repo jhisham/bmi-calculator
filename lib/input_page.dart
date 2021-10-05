@@ -6,6 +6,7 @@ import 'reusable_card.dart';
 import 'icon_content.dart';
 import 'constants.dart';
 import 'buttons_card.dart';
+import 'bmi_result_page.dart';
 
 enum Gender {
   male,
@@ -64,12 +65,9 @@ class _InputPageState extends State<InputPage> {
         title: Text('BMI CALCULATOR'),
       ),
       body: Column(
-        // mainAxisSize: MainAxisSize.min,
-        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Expanded(
             child: Row(
-              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Expanded(
                   child: ReusableCard(
@@ -170,7 +168,6 @@ class _InputPageState extends State<InputPage> {
           ),
           Expanded(
             child: Row(
-              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Expanded(
                   child: ReusableCard(
@@ -222,11 +219,17 @@ class _InputPageState extends State<InputPage> {
             height: kBottomContainerHeight,
             child: TextButton(
               onPressed: () {
-                setState(() {
-                  bmi = _weightInKg / (pow((_heightInCm / 100), 2));
-                  print(bmi);
-                  Navigator.pushNamed(context, '/bmi_result', arguments: bmi);
-                });
+                setState(
+                  () {
+                    bmi = _weightInKg / (pow((_heightInCm / 100), 2));
+                    print(bmi);
+                    Navigator.pushNamed(
+                      context,
+                      BMIResult.routeName,
+                      arguments: Result(bmi),
+                    );
+                  },
+                );
               },
               child: Text(
                 "Calculate your BMI".toUpperCase(),

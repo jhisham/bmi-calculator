@@ -7,4 +7,5 @@ const Color kCardTextPrimaryColor = Color(0xFF8E8F99);
 const Color kBottomContainerColor = Color(0xFFEB1555);
 const double kBottomContainerHeight = 80.0;
 const double kLabelFontSize = 18.0;
+const Color kLabelTextColor = Color(0xFF8E8F99);
 const double kVariableTextfontSize = 50.0;
