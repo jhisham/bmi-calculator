@@ -2,29 +2,37 @@ import 'package:flutter/material.dart';
 import 'constants.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class ButtonsCard extends StatefulWidget {
-  const ButtonsCard();
+class ButtonsCard extends StatelessWidget {
+  ButtonsCard({
+    @required this.cardLabel,
+    @required this.cardValue,
+    @required this.firstButtonIcon,
+    @required this.secondButtonIcon,
+    @required this.firstButtonOnTap,
+    @required this.secondButtonOnTap,
+  });
 
-  @override
-  _ButtonsCardState createState() => _ButtonsCardState();
-}
+  final String cardLabel;
+  final int cardValue;
+  final IconData firstButtonIcon;
+  final IconData secondButtonIcon;
+  final Function firstButtonOnTap;
+  final Function secondButtonOnTap;
 
-class _ButtonsCardState extends State<ButtonsCard> {
-  int value;
   @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
-          'weight'.toUpperCase(),
+          cardLabel.toUpperCase(),
           style: TextStyle(
             color: Color(0xFF8E8F99),
             fontSize: kLabelFontSize,
           ),
         ),
         Text(
-          value.toString(),
+          cardValue.toString(),
           style: TextStyle(
               color: Color(0xFFFFFFFF),
               fontSize: kVariableTextfontSize,
@@ -38,13 +46,9 @@ class _ButtonsCardState extends State<ButtonsCard> {
                 shape: CircleBorder(),
                 padding: EdgeInsets.all(18),
               ),
-              onPressed: () {
-                setState(() {
-                  value--; // same as _weightValue -= 1
-                });
-              },
+              onPressed: firstButtonOnTap,
               child: Icon(
-                FontAwesomeIcons.minus,
+                firstButtonIcon,
                 size: 20.0,
               ),
             ),
@@ -56,13 +60,9 @@ class _ButtonsCardState extends State<ButtonsCard> {
                 shape: CircleBorder(),
                 padding: EdgeInsets.all(18),
               ),
-              onPressed: () {
-                setState(() {
-                  value++;
-                });
-              },
+              onPressed: secondButtonOnTap,
               child: Icon(
-                FontAwesomeIcons.plus,
+                secondButtonIcon,
                 size: 20.0,
               ),
             ),

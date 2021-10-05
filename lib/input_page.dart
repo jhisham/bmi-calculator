@@ -174,69 +174,43 @@ class _InputPageState extends State<InputPage> {
               children: [
                 Expanded(
                   child: ReusableCard(
-                      color: kActiveCardColor, child: ButtonsCard()),
+                    color: kActiveCardColor,
+                    child: ButtonsCard(
+                        cardLabel: 'weight',
+                        cardValue: _weightInKg,
+                        firstButtonIcon: FontAwesomeIcons.minus,
+                        secondButtonIcon: FontAwesomeIcons.plus,
+                        firstButtonOnTap: () {
+                          setState(() {
+                            _weightInKg--;
+                          });
+                        },
+                        secondButtonOnTap: () {
+                          setState(() {
+                            _weightInKg++;
+                          });
+                        }),
+                  ),
                 ),
                 // Expanded(flex: 1, child: SizedBox()),
                 Expanded(
                   child: ReusableCard(
                     color: kActiveCardColor,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'age'.toUpperCase(),
-                          style: TextStyle(
-                            color: Color(0xFF8E8F99),
-                            fontSize: kLabelFontSize,
-                          ),
-                        ),
-                        Text(
-                          _ageValue.toString(),
-                          style: TextStyle(
-                              color: Color(0xFFFFFFFF),
-                              fontSize: kVariableTextfontSize,
-                              fontWeight: FontWeight.w900),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            OutlinedButton(
-                              style: OutlinedButton.styleFrom(
-                                shape: CircleBorder(),
-                                padding: EdgeInsets.all(18),
-                              ),
-                              onPressed: () {
-                                setState(() {
-                                  _ageValue--;
-                                });
-                              },
-                              child: Icon(
-                                FontAwesomeIcons.minus,
-                                size: 20.0,
-                              ),
-                            ),
-                            SizedBox(
-                              width: 15.0,
-                            ),
-                            OutlinedButton(
-                              style: OutlinedButton.styleFrom(
-                                shape: CircleBorder(),
-                                padding: EdgeInsets.all(18),
-                              ),
-                              onPressed: () {
-                                setState(() {
-                                  _ageValue++;
-                                });
-                              },
-                              child: Icon(
-                                FontAwesomeIcons.plus,
-                                size: 20.0,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
+                    child: ButtonsCard(
+                        cardLabel: 'age',
+                        cardValue: _ageValue,
+                        firstButtonIcon: FontAwesomeIcons.minus,
+                        secondButtonIcon: FontAwesomeIcons.plus,
+                        firstButtonOnTap: () {
+                          setState(() {
+                            _ageValue--;
+                          });
+                        },
+                        secondButtonOnTap: () {
+                          setState(() {
+                            _ageValue++;
+                          });
+                        }),
                   ),
                 ),
               ],
@@ -251,6 +225,7 @@ class _InputPageState extends State<InputPage> {
                 setState(() {
                   bmi = _weightInKg / (pow((_heightInCm / 100), 2));
                   print(bmi);
+                  Navigator.pushNamed(context, '/bmi_result', arguments: bmi);
                 });
               },
               child: Text(
