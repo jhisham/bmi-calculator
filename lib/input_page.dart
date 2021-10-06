@@ -7,6 +7,7 @@ import 'icon_content.dart';
 import 'constants.dart';
 import 'buttons_card.dart';
 import 'bmi_result_page.dart';
+import 'bmi_calculator.dart';
 
 enum Gender {
   male,
@@ -25,7 +26,6 @@ class _InputPageState extends State<InputPage> {
   double _heightInCm = 60.0;
   int _weightInKg = 60;
   int _ageValue = 18;
-  double bmi;
 
   // the commented out variables and method below are kept for reference to
   // compare between ternary operators and if-else statements which basically
@@ -221,12 +221,17 @@ class _InputPageState extends State<InputPage> {
               onPressed: () {
                 setState(
                   () {
-                    bmi = _weightInKg / (pow((_heightInCm / 100), 2));
+                    BMICalculator bmi = BMICalculator(
+                        height: _heightInCm.toInt(), weight: _weightInKg);
                     print(bmi);
                     Navigator.pushNamed(
                       context,
                       BMIResult.routeName,
-                      arguments: Result(bmi),
+                      arguments: Result(
+                        bmiResult: bmi.calculateBMI(),
+                        bmiCategory: bmi.bmiCategory(),
+                        bmiMessage: bmi.bmiMessage(),
+                      ),
                     );
                   },
                 );

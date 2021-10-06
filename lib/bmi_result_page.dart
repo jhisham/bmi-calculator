@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'constants.dart';
 
 class Result {
-  final double bmiResult;
+  final String bmiResult;
+  final String bmiCategory;
+  final String bmiMessage;
 
-  Result(this.bmiResult);
+  Result({this.bmiResult, this.bmiCategory, this.bmiMessage});
 }
 
 class BMIResult extends StatelessWidget {
@@ -58,7 +59,7 @@ class BMIResult extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        'normal'.toUpperCase(),
+                        args.bmiCategory.toUpperCase(),
                         style: TextStyle(
                           color: Colors.greenAccent[400],
                           fontSize: kLabelFontSize,
@@ -70,7 +71,7 @@ class BMIResult extends StatelessWidget {
                   ),
                   SizedBox(height: 10.0),
                   Text(
-                    args.bmiResult.toStringAsFixed(1),
+                    args.bmiResult,
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 90.0,
@@ -99,7 +100,8 @@ class BMIResult extends StatelessWidget {
                   ),
                   SizedBox(height: 30.0),
                   Text(
-                    'You have a normal body weight. Good job!',
+                    args.bmiMessage,
+                    textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: kLabelFontSize,
                       letterSpacing: 1.0,
